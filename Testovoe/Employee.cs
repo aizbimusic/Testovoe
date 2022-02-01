@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Testovoe
+﻿namespace Testovoe
 {
     internal abstract class Employee
     {
         private double rate;
         public string Name { get;}
         public int Id { get; }
+        public EmployeeType EmployeeType { get; set; } = EmployeeType.FixedPayEmployee;
 
-        public abstract double Salary { get; }
+        public abstract double Salary();
         public double Rate
         {
             set
@@ -20,7 +15,7 @@ namespace Testovoe
                 if (value > 0)
                     rate = value;
             }
-            protected get
+            get
             {
                 return rate;
             }
@@ -32,10 +27,16 @@ namespace Testovoe
             Id = id;
             Rate = rate;
         }
+
         public override string ToString()
         {
             return $"Id: {Id}; Name: {Name}; Rate {Rate}";
         }
+    }
 
+    internal enum EmployeeType : byte
+    {
+        HourlyPayEmployee,
+        FixedPayEmployee
     }
 }
