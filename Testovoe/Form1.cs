@@ -21,17 +21,20 @@ namespace Testovoe
                 //new HourlyPayEmployee("Travis", 7, 20) { EmployeeType = EmployeeType.HourlyPayEmployee }
             };
         List<Employee> filteredList = new List<Employee>();
+        internal DataSet dataSet = new DataSet();
+        DataTable dt = new DataTable();
+
         public Form1()
         {
             InitializeComponent();
 
-            string connectionString = "Data Source=EDS42\\DEMOSERVER;Database = adonetdb;Integrated Security=SSPI;Encrypt=True;TrustServerCertificate=True";
             string sqlExpression = "SELECT * FROM Employee";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection sql = new SqlConnection(Helper.sqlConnection))
             {
-                connection.Open();
-                SqlCommand sqlCommand = new SqlCommand(sqlExpression, connection);
+                sql.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sql);
                 SqlDataReader reader = sqlCommand.ExecuteReader();
+
                 while (reader.Read())
                 {
                     string name = reader.GetString(0);
@@ -59,7 +62,6 @@ namespace Testovoe
         {
 
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             filteredList = list.Select(x => x).OrderByDescending(x => x.Salary()).ThenBy(x => x.Name).ToList();
@@ -147,8 +149,13 @@ namespace Testovoe
             {
                 throw new NotImplementedException();
             }
+        }
 
-        
+        private void button6_Click(object sender, EventArgs e)
+        {
+            EditForm editForm = new EditForm();
+            editForm.Owner = this;
+            editForm.ShowDialog();
 
         }
     }
