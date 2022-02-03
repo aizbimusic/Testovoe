@@ -11,6 +11,5 @@ namespace Testovoe
     {
        internal static string sqlConnection = "Data Source=EDS42\\DEMOSERVER;Database = adonetdb;Integrated Security=SSPI;Encrypt=True;TrustServerCertificate=True";
        internal static SqlDataAdapter EmployeeTableAdapter = new SqlDataAdapter();
-
     }
 }

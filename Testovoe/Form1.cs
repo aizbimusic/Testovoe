@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Testovoe
 {
@@ -23,7 +23,7 @@ namespace Testovoe
         List<Employee> filteredList = new List<Employee>();
         internal DataSet dataSet = new DataSet();
         DataTable dt = new DataTable();
-
+        SqlConnection SqlConnection = new SqlConnection(Helper.sqlConnection);
         public Form1()
         {
             InitializeComponent();
@@ -37,8 +37,8 @@ namespace Testovoe
 
                 while (reader.Read())
                 {
-                    string name = reader.GetString(0);
-                    int id = reader.GetInt32(1);
+                    int id = reader.GetInt32(0);
+                    string name = reader.GetString(1);
                     double rate = reader.GetDouble(2);
                     int employeeTypeId = reader.GetInt32(3);
                     if (employeeTypeId == (int)EmployeeType.HourlyPayEmployee)
@@ -153,10 +153,41 @@ namespace Testovoe
 
         private void button6_Click(object sender, EventArgs e)
         {
-            EditForm editForm = new EditForm();
+            CreateForm editForm = new CreateForm();
             editForm.Owner = this;
             editForm.ShowDialog();
+        }
 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                var columnIndex = dataGridView1.Columns["Id"].Index;
+                var ids = new List<string>();
+
+                foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+                {
+                    var id = row.Cells[columnIndex]?.Value?.ToString();
+                    if(!string.IsNullOrEmpty(id))
+                        ids.Add(id);
+                }
+                var cmdText = string.Format("DELETE Employee WHERE Id in ({0})", string.Join(",", ids));
+                var cmd = new SqlCommand(cmdText, SqlConnection);
+                SqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                SqlConnection.Close();
+                MessageBox.Show("Запись была успешно удалена");
+            }
+            else
+            {
+                MessageBox.Show("Выберите запись которую хотите удалить!");
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            //UpdateForm updateForm = new UpdateForm(employeeId) { Owner = this };
+            //updateForm.ShowDialog();
         }
     }
 }

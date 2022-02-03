@@ -11,35 +11,31 @@ using System.Windows.Forms;
 
 namespace Testovoe
 {
-    public partial class EditForm : Form
+    public partial class UpdateForm : Form
     {
         SqlCommand cmd = new SqlCommand();
         SqlConnection sql = new SqlConnection(Helper.sqlConnection);
+        public int EmployeeId { get; set; }
 
-        public EditForm()
+        public UpdateForm(int employeeId)
         {
+            EmployeeId = employeeId;
             InitializeComponent();
         }
 
-        private void CloseBtn_Click(object sender, EventArgs e)
+        private void UptadeBtn_Click(object sender, EventArgs e)
         {
-            Close();
-        }
-
-        private void AddBtn_Click(object sender, EventArgs e)
-        {
-            if (tbName.Text != "" && tbId.Text != "" && tbRate.Text != "" && tbEmployeeType.Text!= "")
+            if (tbName.Text != "" && tbRate.Text != "" && tbEmployeeType.Text != "")
             {
-                try 
+                try
                 {
-                    cmd = new SqlCommand("INSERT INTO Employee(Name, Id, Rate, EmployeeType)VALUES(@name, @id, @rate, @employeetype)", sql);
+                    cmd = new SqlCommand("UPDATE Employee SET Name = @name, Rate = @rate, EmployeeType = @employeetype WHERE Id =" + EmployeeId+1, sql);
                     sql.Open();
                     cmd.Parameters.AddWithValue("@name", tbName.Text);
-                    cmd.Parameters.AddWithValue("@id", tbId.Text);
                     cmd.Parameters.AddWithValue("@rate", tbRate.Text);
-                    cmd.Parameters.AddWithValue("@employeetype", tbEmployeeType.Text);
+                    cmd.Parameters.AddWithValue("@employeetype", tbEmployeeType.SelectedIndex);
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Запись успешно добавлена");
+                    MessageBox.Show("Запись успешно обновлена");
                 }
                 catch (Exception ex)
                 {
@@ -56,8 +52,11 @@ namespace Testovoe
             {
                 MessageBox.Show("Внесите корректные данные");
             }
-
         }
-      
+
+        private void CloseBtn_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
