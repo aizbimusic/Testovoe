@@ -37,8 +37,9 @@ namespace Testovoe
 
                 while (reader.Read())
                 {
-                    int id = reader.GetInt32(0);
-                    string name = reader.GetString(1);
+
+                    string name = reader.GetString(0);
+                    int id = reader.GetInt32(1);
                     double rate = reader.GetDouble(2);
                     int employeeTypeId = reader.GetInt32(3);
                     if (employeeTypeId == (int)EmployeeType.HourlyPayEmployee)
@@ -186,8 +187,13 @@ namespace Testovoe
 
         private void button8_Click(object sender, EventArgs e)
         {
-            //UpdateForm updateForm = new UpdateForm(employeeId) { Owner = this };
-            //updateForm.ShowDialog();
+            int rPos = dataGridView1.CurrentCell.ColumnIndex;
+            int i = dataGridView1.CurrentRow.Index;
+            string textName = (string)dataGridView1.Rows[i].Cells[0].Value;
+            int employeeId = (int)dataGridView1.Rows[i].Cells[1].Value;
+            double textRate = (double)dataGridView1.Rows[i].Cells[3].Value;
+            UpdateForm updateForm = new UpdateForm(employeeId, textName, textRate) { Owner = this };
+            updateForm.ShowDialog();
         }
     }
 }

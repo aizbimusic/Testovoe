@@ -66,6 +66,7 @@
             this.tbEmployeeType.Name = "tbEmployeeType";
             this.tbEmployeeType.Size = new System.Drawing.Size(150, 23);
             this.tbEmployeeType.TabIndex = 11;
+            this.tbEmployeeType.SelectedIndexChanged += new System.EventHandler(this.tbEmployeeType_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -104,6 +105,7 @@
             this.tbRate.Name = "tbRate";
             this.tbRate.Size = new System.Drawing.Size(298, 29);
             this.tbRate.TabIndex = 3;
+            this.tbRate.TextChanged += new System.EventHandler(this.tbRate_TextChanged);
             // 
             // tbName
             // 
@@ -112,6 +114,7 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(298, 29);
             this.tbName.TabIndex = 1;
+            this.tbName.TextChanged += new System.EventHandler(this.tbName_TextChanged);
             // 
             // label1
             // 

@@ -9,7 +9,7 @@ namespace Testovoe
 {
     internal static class Helper
     {
-       internal static string sqlConnection = "Data Source=EDS42\\DEMOSERVER;Database = adonetdb;Integrated Security=SSPI;Encrypt=True;TrustServerCertificate=True";
+       internal static string sqlConnection = "Data Source=(localdb)\\MSSQLLocalDB;Database = Employee;Integrated Security=SSPI;Encrypt=True;TrustServerCertificate=True";
        internal static SqlDataAdapter EmployeeTableAdapter = new SqlDataAdapter();
     }
 }

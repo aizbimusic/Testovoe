@@ -15,12 +15,20 @@ namespace Testovoe
     {
         SqlCommand cmd = new SqlCommand();
         SqlConnection sql = new SqlConnection(Helper.sqlConnection);
+
         public int EmployeeId { get; set; }
 
-        public UpdateForm(int employeeId)
+        public int TextRate { get; set; }
+
+        public string TextName { get; set; }
+
+
+        public UpdateForm(int employeeId, string textName, double textRate)
         {
-            EmployeeId = employeeId;
             InitializeComponent();
+            EmployeeId = employeeId;
+            tbName.Text = textName;
+            tbRate.Text = textRate.ToString();
         }
 
         private void UptadeBtn_Click(object sender, EventArgs e)
@@ -29,7 +37,7 @@ namespace Testovoe
             {
                 try
                 {
-                    cmd = new SqlCommand("UPDATE Employee SET Name = @name, Rate = @rate, EmployeeType = @employeetype WHERE Id =" + EmployeeId+1, sql);
+                    cmd = new SqlCommand("UPDATE Employee SET Name = @name, Rate = @rate, EmployeeType = @employeetype WHERE Id =" + EmployeeId, sql);
                     sql.Open();
                     cmd.Parameters.AddWithValue("@name", tbName.Text);
                     cmd.Parameters.AddWithValue("@rate", tbRate.Text);
@@ -44,7 +52,6 @@ namespace Testovoe
                 finally
                 {
                     sql.Close();
-
                 }
 
             }
@@ -57,6 +64,21 @@ namespace Testovoe
         private void CloseBtn_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void tbName_TextChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void tbRate_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbEmployeeType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
