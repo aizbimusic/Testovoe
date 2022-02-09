@@ -1,13 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Testovoe
 {
@@ -21,14 +12,16 @@ namespace Testovoe
         public int TextRate { get; set; }
 
         public string TextName { get; set; }
+        internal Employee Employee { get; set; }
 
-
-        public UpdateForm(int employeeId, string textName, double textRate)
+        internal UpdateForm(Employee emp)
         {
             InitializeComponent();
-            EmployeeId = employeeId;
-            tbName.Text = textName;
-            tbRate.Text = textRate.ToString();
+            Employee = emp;
+            EmployeeId = emp.Id;
+            tbName.Text = emp.Name;
+            tbRate.Text = emp.Rate.ToString();
+            tbEmployeeType.SelectedIndex = (int)emp.EmployeeType;
         }
 
         private void UptadeBtn_Click(object sender, EventArgs e)

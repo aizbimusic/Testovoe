@@ -9,17 +9,8 @@ namespace Testovoe
 {
     public partial class Form1 : Form
     {
-        
-        List<Employee> list = new List<Employee>()
-            {
-                //new FixedPayEmployee("Tom", 1, 15000),
-                //new FixedPayEmployee("Bob", 2, 10000) { EmployeeType = EmployeeType.HourlyPayEmployee },
-                //new HourlyPayEmployee("John", 3, 10),
-                //new HourlyPayEmployee("Anna", 4, 10),
-                //new FixedPayEmployee("Sara", 5, 5000) { EmployeeType = EmployeeType.HourlyPayEmployee },
-                //new HourlyPayEmployee("Jack", 6, 30),
-                //new HourlyPayEmployee("Travis", 7, 20) { EmployeeType = EmployeeType.HourlyPayEmployee }
-            };
+
+        List<Employee> list = new List<Employee>();
         List<Employee> filteredList = new List<Employee>();
         internal DataSet dataSet = new DataSet();
         DataTable dt = new DataTable();
@@ -37,22 +28,23 @@ namespace Testovoe
 
                 while (reader.Read())
                 {
-
-                    string name = reader.GetString(0);
-                    int id = reader.GetInt32(1);
+                    int id = reader.GetInt32(0);
+                    string name = reader.GetString(1);
                     double rate = reader.GetDouble(2);
                     int employeeTypeId = reader.GetInt32(3);
                     if (employeeTypeId == (int)EmployeeType.HourlyPayEmployee)
                     {
-                        list.Add(new HourlyPayEmployee(name, id, rate, employeeTypeId));
+                        list.Add(new HourlyPayEmployee(name, id, rate));
                     }
                     else if (employeeTypeId == (int) EmployeeType.FixedPayEmployee)
                     {
-                        list.Add(new FixedPayEmployee(name, id, rate, employeeTypeId));
+                        list.Add(new FixedPayEmployee(name, id, rate));
                     }
                 }
             }
 
+            //Если сразу начать обновлять сотрудника без фильтрации елементов - происходит ошибка, так как filteredList не имеет значений
+            filteredList = list;
             var bindingList = new BindingList<Employee>(list);
             var source = new BindingSource(bindingList, null);
             dataGridView1.DataSource = source;
@@ -187,12 +179,12 @@ namespace Testovoe
 
         private void button8_Click(object sender, EventArgs e)
         {
-            int rPos = dataGridView1.CurrentCell.ColumnIndex;
             int i = dataGridView1.CurrentRow.Index;
+            var emp = filteredList[i];
             string textName = (string)dataGridView1.Rows[i].Cells[0].Value;
             int employeeId = (int)dataGridView1.Rows[i].Cells[1].Value;
             double textRate = (double)dataGridView1.Rows[i].Cells[3].Value;
-            UpdateForm updateForm = new UpdateForm(employeeId, textName, textRate) { Owner = this };
+            UpdateForm updateForm = new UpdateForm(emp) { Owner = this };
             updateForm.ShowDialog();
         }
     }
